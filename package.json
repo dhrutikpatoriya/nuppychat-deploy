@@ -1,0 +1,13 @@
+{
+  "name": "nuppychat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build" : "npm install --prefix backand && npm install --prefix frontend npm run build --prefix frontend"
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

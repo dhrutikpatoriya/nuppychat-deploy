@@ -1,0 +1,36 @@
+{
+  "name": "backand",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "postinstall": "patch-package"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "debug": "^4.4.3",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.0",
+    "finalhandler": "^2.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.526.0",
+    "mongoose": "^8.13.2",
+    "stream-chat": "^8.60.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "npm-force-resolutions": "^0.0.10",
+    "patch-package": "^8.0.0"
+  },
+  "resolutions": {
+    "debug": "4.4.3"
+  }
+}
