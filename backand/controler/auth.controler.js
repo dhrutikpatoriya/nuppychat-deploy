@@ -33,7 +33,7 @@ export async function signup(req,res){
             await upsertStreamUser({
                 id : newUser._id.toString(),
                 name : newUser.fullName,
-                image : newUser.profilepic || "",
+                image : newUser.profilePic || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(newUser.fullName)}`,
             });
             console.log(`Stream user created for ${newUser.fullName}`)
         } catch (error) {

@@ -1,5 +1,5 @@
 import useAuathUser from "../hooks/useAuathUser";
-import { useParams } from "react-router"
+import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { StreamChat } from "stream-chat";
 import ChatLoder from "../components/ChatLoder";
 import toast from "react-hot-toast";
 import CallButton from "../components/CallButton";
+import { ArrowLeftIcon } from "lucide-react";
 
 
 
@@ -15,6 +16,7 @@ const ChatPage = () => {
 
   const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
   const {id:targetUserId} = useParams();
+  const navigate = useNavigate();
 
   const [chatClient,setChatClient] = useState(null);
   const [channel,setChannel] = useState(null);
@@ -75,21 +77,30 @@ const ChatPage = () => {
   if(loading || !chatClient || !channel) return <ChatLoder/>
   
   return (
-    <div className="h-[92vh]">
-      <Chat client={chatClient}>
-        <Channel channel={channel}>
-          <div className="w-full relative">
-            <CallButton handleVideoCall={handleVideoCall}/>
-            <Window>
-              <ChannelHeader/>
-              <MessageList/>
-              <MessageInput focus/>
-            </Window>
-          </div>
-            <Thread />
-        </Channel>
+    <div className="h-[calc(100vh-4rem)] w-full flex flex-col bg-base-100 overflow-hidden">
+      
+      <div className="flex items-center px-4 py-2 border-b border-base-200 bg-base-100 z-50">
+         <button onClick={() => navigate("/ChatsPage")} className="btn btn-ghost btn-sm rounded-full gap-2">
+            <ArrowLeftIcon className="size-4" />
+            <span className="hidden sm:inline">Back to Chats</span>
+         </button>
+      </div>
 
-      </Chat>
+      <div className="flex-1 w-full relative flex flex-col">
+        <Chat client={chatClient}>
+          <Channel channel={channel}>
+            <div className="w-full h-full relative flex flex-col">
+              <CallButton handleVideoCall={handleVideoCall}/>
+              <Window>
+                <ChannelHeader/>
+                <MessageList/>
+                <MessageInput focus/>
+              </Window>
+            </div>
+            <Thread />
+          </Channel>
+        </Chat>
+      </div>
     </div>
   )
 }

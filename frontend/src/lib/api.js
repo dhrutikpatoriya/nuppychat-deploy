@@ -74,4 +74,9 @@ export async function acceptFriendRequestMutation(reqId) {
 export async function getStreamToken() {
       const response = await axiosInstance.get("/chat/token");
       return response.data;
-}     
+}   
+
+export async function removeFriend(userId) {
+      const response = await axiosInstance.delete(`/user/friend/${userId}`);
+      return response.data;
+}

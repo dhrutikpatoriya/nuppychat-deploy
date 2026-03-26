@@ -6,6 +6,7 @@ import OnbordingPage from "./pages/OnbordingPage"
 import NotificationPage from "./pages/NotificationPage"
 import CallPage from "./pages/CallPage"
 import ChatPage from "./pages/ChatPage"
+import ChatsPage from "./pages/ChatsPage"
 import { Toaster, toast } from "react-hot-toast";
 import useAuathUser from "./hooks/useAuathUser"
 import PageLoder from "./components/PageLoder"
@@ -67,6 +68,14 @@ const App = () => {
           ) : (
             <Navigate to={!isAuthenticated ? "/LoginPage" : "/OnbordingPage"} />
           )} />
+        <Route path="/ChatsPage"
+          element={isAuthenticated && isOnborded ? (
+            <Layout showSidebar={true}>
+              <ChatsPage />
+            </Layout>
+          ) : (
+            <Navigate to={!isAuthenticated ? "/LoginPage" : "/OnbordingPage"} />
+          )} />
         <Route
           path="/call/:id"
           element={
@@ -122,7 +131,7 @@ const App = () => {
           )
           } />
       </Routes>
-
+      <Toaster />
     </div>
   )
 }

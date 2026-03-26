@@ -47,9 +47,9 @@ const NotificationPage = () => {
                       className='card bg-base-200 shadow-sm hover:shadow-md transition-shadow'
                     >
                        <div className='card-body p-4'>
-                        <div className='flex items-center justify-between'>
-                          <div className='flex items-center gap-3'>
-                            <div className='avatar w-14 h-14 rounded-full bg-base-300'>
+                        <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
+                          <div className='flex items-center gap-3 w-full'>
+                            <div className='avatar w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-base-300 shrink-0'>
                               <img 
                                 src={request.sender.profilePic || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(request.sender.fullName)}`} 
                                 alt={request.sender.fullName}
@@ -57,21 +57,22 @@ const NotificationPage = () => {
                                   e.target.onerror = null;
                                   e.target.src = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(request.sender.fullName)}`;
                                 }}
-                              />                            </div>
-                            <div>
-                              <h3 className='font-semibold'>{request.sender.fullName}</h3>
+                              />                            
+                            </div>
+                            <div className='flex-1 overflow-hidden'>
+                              <h3 className='font-semibold truncate'>{request.sender.fullName}</h3>
                               <div className='flex flex-wrap gap-1.5 mt-1'>
-                                <span className='badge badge-primary badge-sm'>
+                                <span className='badge badge-primary badge-xs sm:badge-sm'>
                                   Native: {request.sender.nativeLanguage}
                                 </span>
-                                <span className='badge badge-outline badge-sm'>
+                                <span className='badge badge-outline badge-xs sm:badge-sm'>
                                   Learning: {request.sender.learningLanguage}
                                 </span>
                               </div>
                             </div>
                           </div>
                           <button 
-                            className='btn btn-primary btn-sm'
+                            className='btn btn-primary btn-sm w-full sm:w-auto'
                             onClick={()=>acceptFriendRequest(request._id)}
                             disabled={isPending}
                           >
@@ -98,30 +99,32 @@ const NotificationPage = () => {
                         className='card bg-base-200 shadow-sm'
                       >
                         <div className='card-body p-4'>
-                          <div className='flex items-start gap-3'>
-                            <div className='avatar mt-1 size-10 rounded-full'>
-                              <img 
-                                src={notification.recipient.profilePic || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(notification.recipient.fullName)}`} 
-                                alt={notification.recipient.fullName}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(notification.recipient.fullName)}`;
-                                }} 
-                              />
+                          <div className='flex flex-col sm:flex-row items-start sm:items-center gap-3'>
+                            <div className='flex items-start gap-3 w-full sm:w-auto flex-1'>
+                              <div className='avatar mt-1 size-10 rounded-full shrink-0'>
+                                <img 
+                                  src={notification.recipient.profilePic || `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(notification.recipient.fullName)}`} 
+                                  alt={notification.recipient.fullName}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(notification.recipient.fullName)}`;
+                                  }} 
+                                />
+                              </div>
+                              <div className='flex-1 overflow-hidden mt-0 sm:mt-1'>
+                                <h3 className='font-semibold truncate'>
+                                  {notification.recipient.fullName}
+                                </h3>
+                                <p className='text-sm my-1 text-base-content/80'>
+                                  {notification.recipient.fullName} accepted your friend request
+                                </p>
+                                <p className='text-xs flex items-center opacity-70'>
+                                  <ClockIcon className='h-3 w-3 mr-1' />
+                                  Recently
+                                </p>
+                              </div>
                             </div>
-                            <div className='flex-1'>
-                              <h3 className='font-semibold'>
-                                {notification.recipient.fullName}
-                              </h3>
-                              <p className='text-sm my-1'>
-                                {notification.recipient.fullName} accepted your friend request
-                              </p>
-                              <p className='text-xs flex items-center opacity-70'>
-                                <ClockIcon className='h-3 w-3 mr-1' />
-                                Recently
-                              </p>
-                            </div>
-                            <div className='badge badge-success '>
+                            <div className='badge badge-success shrink-0 mt-2 sm:mt-0'>
                               <MessageSquareIcon className='h-3 w-3 mr-1'/>
                               New Friend
                             </div>

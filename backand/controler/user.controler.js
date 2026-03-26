@@ -1,5 +1,6 @@
 import User from "../modules/user.js";
-import FriendRequest from "../modules/FriendRequest.js"
+import FriendRequest from "../modules/FriendRequest.js";
+import mongoose from "mongoose";
 
 export async function getRecommendedUsers(req,res){
     try {
@@ -26,8 +27,11 @@ export async function getMyFriends(req,res){
     try {
         const user = await User.findById(req.user._id)
         .select("friends")
-        .populate("friends" , "fullName profilePic nativeLanguage learningLanguage")
-        res.status(200).json(user.friends)
+        .populate("friends" , "fullName profilePic nativeLanguage learningLanguage bio")
+        
+        // Safety filter to remove null entries if a reference user was deleted
+        const validFriends = user.friends.filter(f => f !== null);
+        res.status(200).json(validFriends)
     } catch (error) {
         console.error("Error in getMyFriends controller", error.message);
         res.status(500).json({ message: "Internal Server Error"});
@@ -133,5 +137,38 @@ export async function getOutgoingFriendRequest(req,res) {
     } catch (error) {
         console.error("error in outgoing Friend Request : ",error.message);
         res.status(500).json("internel server error ");
+    }
+}
+
+export async function unfriendUser(req, res) {
+    try {
+        const myId = req.user._id;
+        const { id: targetUserId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(targetUserId)) {
+            return res.status(400).json({ message: "Invalid user ID" });
+        }
+
+        const targetIdObj = new mongoose.Types.ObjectId(targetUserId);
+
+        await User.findByIdAndUpdate(myId, {
+            $pull: { friends: targetIdObj }
+        });
+
+        await User.findByIdAndUpdate(targetIdObj, {
+            $pull: { friends: myId }
+        });
+
+        await FriendRequest.deleteMany({
+            $or: [
+                { sender: myId, recipient: targetIdObj },
+                { sender: targetIdObj, recipient: myId }
+            ]
+        });
+
+        res.status(200).json({ message: "Friend removed successfully" });
+    } catch (error) {
+        console.error("error in unfriendUser : ", error.message);
+        res.status(500).json({ message: "Internal server error" });
     }
 }

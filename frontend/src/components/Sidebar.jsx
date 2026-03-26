@@ -1,7 +1,7 @@
 
 import useAuathUser from '../hooks/useAuathUser'
 import { Link, useLocation } from 'react-router'
-import { BellIcon, Donut, HomeIcon, UsersIcon } from 'lucide-react'
+import { BellIcon, Donut, HomeIcon, UsersIcon, MessageSquareIcon } from 'lucide-react'
 
 const Sidebar = () => {
   const {authUser} = useAuathUser()
@@ -26,6 +26,14 @@ const Sidebar = () => {
         >
           <HomeIcon className='size-5 text-base-content opacity-70' />
           <span>Home</span>
+        </Link>
+
+        <Link
+          to="/ChatsPage"
+          className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath === "/ChatsPage" ? "btn-active" : ""}`}
+        >
+          <MessageSquareIcon className='size-5 text-base-content opacity-70' />
+          <span>Chats</span>
         </Link>
 
         <Link
